@@ -5,17 +5,29 @@ import Show from "components/Appointment/Show"
 import Empty from "components/Appointment/Empty"
 
 export default function Appointment(props) {
-  // if(props.interview === true) {
+  console.log(props.interview)
+  if(!props.interview) {
   return (
     <article className="appointment">
       <div id={props.id}>
       {props.time}
       </div>
       <div>
-      <Show />
+      <Empty />
       </div>
-      
     </article>
   )
-  // }
+  } 
+  return (
+      <article className="appointment">
+      <div id={props.id}>
+      {props.time}
+      </div>
+      <div>
+      <Show student={props.interview.student}
+      interviewer={props.interview.interviewer.name}/>
+      </div>
+    </article>
+    )
+  
 }
