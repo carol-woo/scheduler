@@ -1,5 +1,5 @@
 import React from "react"
-import Test from "helpers/selectors.test"
+// import Test from "helpers/selectors.test"
 
 export function getAppointmentsForDay(state, day) {
   if (!state.days.length){
