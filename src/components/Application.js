@@ -3,9 +3,7 @@ import axios from "axios"
 import "components/Application.scss";
 import DayList from "components/DayList"
 import Appointment from "components/Appointment"
-
-
-const days = [];
+import { getAppointmentsForDay } from "helpers/selectors"
 
 const appointments = {
   1: {
@@ -45,21 +43,29 @@ const appointments = {
 }
 
 export default function Application(props) {
-  
-const [day, setDay] = useState([])
+
+const [state, setState] = useState({
+  day: "Monday",
+  days: [],
+  appointments: {},
+  interviewers: {}
+});
 
 useEffect(() => {
-axios
-.get('http://localhost:8001/api/days')
-.then(body => body.data.map(obj => ({
-  id: obj.id,
-  name:obj.name,
-  appointments: obj.appointments, //How to get something out of "-"
-  interviews: obj.interviews, // ^ same as above
-  spots: obj.spots
-})))
-.then(day => setDay(day))
-},[day])
+  let daysURL = "http://localhost:8001/api/days"
+  let appointmentsURL = "http://localhost:8001/api/appointments"
+  let interviewersURL = "http://localhost:8001/api/interviewers"
+  
+  const promise1 = axios.get(daysURL);
+  const promise2 = axios.get(appointmentsURL);
+  const promise3 = axios.get(interviewersURL);
+  
+  Promise.all([promise1, promise2, promise3])
+  .then((all) => {
+    setState(prev => ({ days: all[0].data, appointments: all[1].data, interviewers: all[2].data }));
+  });
+},[])
+
 
 
 const appointmentsComponents = Object.keys(appointments).map(i => {
@@ -79,7 +85,7 @@ const appointmentsComponents = Object.keys(appointments).map(i => {
 />
 <hr className="sidebar__separator sidebar--centered" />
 <nav className="sidebar__menu">
-  <DayList days={setDay} day={day} setDay={setDay} />
+  <DayList days={state.days} day={state.day} setDay={(string) => setState({...state, day:string})} />
   </nav>
 <img
   className="sidebar__lhl sidebar--centered"
