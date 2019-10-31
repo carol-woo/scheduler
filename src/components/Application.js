@@ -3,7 +3,7 @@ import axios from "axios"
 import "components/Application.scss";
 import DayList from "components/DayList"
 import Appointment from "components/Appointment"
-import {getAppointmentsForDay} from "helpers/selectors"
+import {getAppointmentsForDay, getInterview} from "helpers/selectors"
 
 
 
@@ -32,11 +32,15 @@ useEffect(() => {
 },[])
 
 
-
 const appointments = getAppointmentsForDay(state, state.day);
 const schedule = appointments.map((appointment) => {
-  const interview = getInterview(state, appointment.interview);
-
+  let interview = null
+  if (appointment.interview) {
+    interview = {
+      student: appointment.interview.student,
+      interviewer: state.interviewers[`${appointment.interview.interviewer}`]
+    }
+  }
   return (
     <Appointment
       key={appointment.id}

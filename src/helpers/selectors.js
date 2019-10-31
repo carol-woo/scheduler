@@ -1,4 +1,5 @@
 import React from "react"
+import InterviewerList from "components/InterviewerList";
 // import Test from "helpers/selectors.test"
 
 export function getAppointmentsForDay(state, day) {
@@ -12,7 +13,8 @@ export function getAppointmentsForDay(state, day) {
   let mapDay = findDay.map(obj => obj.appointments)[0]
   const appointments= mapDay.map(id => state.appointments[id])
   return appointments
-  
-
 }
 
+export function getInterview(state, appointment){
+ console.log(appointment.interview)
+}
