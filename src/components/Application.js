@@ -3,7 +3,7 @@ import axios from "axios"
 import "components/Application.scss";
 import DayList from "components/DayList"
 import Appointment from "components/Appointment"
-import {getAppointmentsForDay, getInterview} from "helpers/selectors"
+import {getAppointmentsForDay, } from "helpers/selectors"
 
 
 
@@ -15,6 +15,18 @@ const [state, setState] = useState({
   appointments: {},
   interviewers: {}
 });
+
+function bookInterview(id, interview) {
+  axios.put("http://localhost:8001/api/appointments/"+id, {interview}).then( data => {
+    setState((prev) => (
+      {...prev, 
+        appointments:{...prev.appointments, [id]: {
+      ...prev.appointments[id], interview:interview}}}
+    ))
+  })
+}
+
+
 
 useEffect(() => {
   let daysURL = "http://localhost:8001/api/days"
@@ -31,7 +43,6 @@ useEffect(() => {
   });
 },[])
 
-
 const appointments = getAppointmentsForDay(state, state.day);
 const schedule = appointments.map((appointment) => {
   let interview = null
@@ -47,6 +58,10 @@ const schedule = appointments.map((appointment) => {
       id={appointment.id}
       time={appointment.time}
       interview={interview}
+      day={state.day}
+      state={state}
+      onSave={setState}
+      bookInterview={bookInterview}
     />
   );
 });
