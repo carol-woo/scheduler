@@ -27,6 +27,16 @@ function bookInterview(id, interview) {
   })
 }
 
+function deleteInterview(id){
+  return axios.delete("http://localhost:8001/api/appointments/"+id).then( data => {
+    setState((prev) => {
+      return (
+      {...prev, 
+        appointments:{...prev.appointments, [id]: {
+      ...prev.appointments[id], interview:null}}}
+    )})
+  })
+}
 
 
 useEffect(() => {
@@ -63,6 +73,7 @@ const schedule = appointments.map((appointment) => {
       state={state}
       onSave={setState}
       bookInterview={bookInterview}
+      deleteInterview={deleteInterview}
     />
   );
 });
