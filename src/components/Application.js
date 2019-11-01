@@ -17,12 +17,13 @@ const [state, setState] = useState({
 });
 
 function bookInterview(id, interview) {
-  axios.put("http://localhost:8001/api/appointments/"+id, {interview}).then( data => {
-    setState((prev) => (
+  return axios.put("http://localhost:8001/api/appointments/"+id, {interview}).then( data => {
+    setState((prev) => {
+      return (
       {...prev, 
         appointments:{...prev.appointments, [id]: {
       ...prev.appointments[id], interview:interview}}}
-    ))
+    )})
   })
 }
 
