@@ -2,6 +2,10 @@ import React, { useReducer, useEffect } from "react";
 import axios from "axios"
 import {getAppointmentsForDay, } from "helpers/selectors"
 
+let daysURL = "http://localhost:8001/api/days"
+  let appointmentsURL = "http://localhost:8001/api/appointments"
+  let interviewersURL = "http://localhost:8001/api/interviewers"
+
 
 export default function useApplicationData() {
 
@@ -49,6 +53,15 @@ export default function useApplicationData() {
           }
         }
       )
+        
+  const promise1 = axios.get(daysURL);
+  const promise2 = axios.get(appointmentsURL);
+  const promise3 = axios.get(interviewersURL);
+  
+  Promise.all([promise1, promise2, promise3])
+  .then((all) => {
+    dispatcher({type: SET_APPLICATION_DATA, value: { days: all[0].data, appointments: all[1].data, interviewers: all[2].data }});
+} );
     })
   }
 
@@ -66,6 +79,15 @@ function deleteInterview(id){
       }
     }
   )
+    
+  const promise1 = axios.get(daysURL);
+  const promise2 = axios.get(appointmentsURL);
+  const promise3 = axios.get(interviewersURL);
+  
+  Promise.all([promise1, promise2, promise3])
+  .then((all) => {
+    dispatcher({type: SET_APPLICATION_DATA, value: { days: all[0].data, appointments: all[1].data, interviewers: all[2].data }});
+} );
 })
 }
 
@@ -75,9 +97,6 @@ dispatcher({type:SET_DAY, value:{...state, day:string}})
 
 
 useEffect(() => {
-  let daysURL = "http://localhost:8001/api/days"
-  let appointmentsURL = "http://localhost:8001/api/appointments"
-  let interviewersURL = "http://localhost:8001/api/interviewers"
   
   const promise1 = axios.get(daysURL);
   const promise2 = axios.get(appointmentsURL);
