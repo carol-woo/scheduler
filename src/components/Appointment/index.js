@@ -9,6 +9,7 @@ import {getInterviewersByDay} from "helpers/selectors"
 import { get } from "http"
 import Status from "components/Appointment/Status"
 import Confirm from "components/Appointment/Confirm"
+import Error from "components/Appointment/Error"
 
 export default function Appointment(props) {
   const EMPTY = "EMPTY";
@@ -17,6 +18,9 @@ export default function Appointment(props) {
   const SAVING = "SAVING";
   const CONFIRM = "CONFIRM";
   const DELETING = "DELETING"
+  const EDIT = "EDIT"
+  const ERRORSAVE = "ERRORSAVE"
+  const ERRORDELETE = "ERRORDELETE"
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
@@ -38,6 +42,8 @@ export default function Appointment(props) {
       interviewer
     };
     props.bookInterview(props.id, interview).then( () => transition(SHOW))
+    .catch(error => transition(ERRORSAVE));
+
   }
 
   function onSave(name, interviewer){
@@ -48,8 +54,12 @@ export default function Appointment(props) {
     transition(DELETING)
     props.deleteInterview(props.id).then( () => transition(EMPTY)
     ) 
+    .catch(error => transition(ERRORDELETE));
+
   }
 
+
+  console.log(props.interview)
   return (
     <article className="appointment">
       <Header time={props.time} />
@@ -59,10 +69,16 @@ export default function Appointment(props) {
       {mode === EMPTY && <Empty onAdd={onAdd} /> }
       {mode === CREATE && <Form interviewers={getInterviewersByDay(props.state, props.day)} onCancel={onCancel} 
         onSave={onSave} />}
-      {mode === SHOW && <Show student={props.interview && props.interview.student} onCancel={cancelInterview}
-      interviewer={props.interview && props.interview.interviewer.name} />}
+      {mode === SHOW && <Show student={props.interview && props.interview.student} onCancel={() => transition(CONFIRM)}
+      interviewer={props.interview && props.interview.interviewer.name} onEdit={() => transition(EDIT)}/>}
       {mode === SAVING && <Status />}
       {mode === DELETING && <Status deleting={DELETING}/>}
+      {mode === CONFIRM && <Confirm onCancel={() => transition(SHOW)} onDelete={cancelInterview}/>}
+      {mode === EDIT && <Form interviewer={props.interview.interviewer.id} name={props.interview.student} interviewers={getInterviewersByDay(props.state, props.day)} onCancel={onCancel} 
+        onSave={onSave} />}
+      {mode === ERRORSAVE && <Error onClose={() => transition(EMPTY)} />}
+      {mode === ERRORDELETE && <Error onClose={() => transition(SHOW)} />}
+
         
     </div>
     </article>

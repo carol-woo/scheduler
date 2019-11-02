@@ -6,6 +6,7 @@ export default function Form (props) {
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [name, setName] = useState(props.name || "");
 
+  console.log(interviewer)
   function reset() {
     setName("");
     setInterviewer(null)
@@ -15,7 +16,7 @@ export default function Form (props) {
   const cancel = () => {
     reset(props.onCancel())
   }
-  
+  console.log(props.interview)
   return (
     <main className="appointment__card appointment__card--create">
     <section className="appointment__card-left">
