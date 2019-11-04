@@ -16,22 +16,21 @@ export default function Form (props) {
   const cancel = () => {
     reset(props.onCancel())
   }
-  console.log(props.interview)
   return (
     <main className="appointment__card appointment__card--create">
     <section className="appointment__card-left">
       <form autoComplete="off">
         <input
-          className="appointment__create-input text--semi-bold"
-          value={name}
-          type="text"
-          placeholder="Enter Student Name"
-          onChange={event => setName(event.target.value)}
-          onSubmit={event => event.preventDefault()}
-        
-          /*
-            This must be a controlled component
-          */
+
+        className="appointment__create-input text--semi-bold"
+         value={name}
+         type="text"
+         placeholder="Enter Student Name"
+         onSubmit={event => event.preventDefault()}
+         onChange={event => {
+           setName(event.target.value);
+         }}
+         data-testid="student-name-input"
         />
       </form>
       <InterviewerList 
