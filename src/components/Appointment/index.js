@@ -70,7 +70,7 @@ export default function Appointment(props) {
       {mode === CREATE && <Form interviewers={getInterviewersByDay(props.state, props.day)} onCancel={onCancel} 
         onSave={onSave} />}
       {mode === SHOW && <Show student={props.interview && props.interview.student} onCancel={() => transition(CONFIRM)}
-      interviewer={props.interview && props.interview.interviewer.name} onEdit={() => transition(EDIT)}/>}
+      interviewer={props.interview && props.interview.interviewer && props.interview.interviewer.name} onEdit={() => transition(EDIT)}/>}
       {mode === SAVING && <Status />}
       {mode === DELETING && <Status deleting={DELETING}/>}
       {mode === CONFIRM && <Confirm onCancel={() => transition(SHOW)} onDelete={cancelInterview}/>}
