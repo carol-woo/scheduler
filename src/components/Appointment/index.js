@@ -71,7 +71,7 @@ export default function Appointment(props) {
         onSave={onSave} />}
       {mode === SHOW && <Show student={props.interview && props.interview.student} onCancel={() => transition(CONFIRM)}
       interviewer={props.interview && props.interview.interviewer && props.interview.interviewer.name} onEdit={() => transition(EDIT)}/>}
-      {mode === SAVING && <Status />}
+      {mode === SAVING && <Status deleting={"Saving"}/>}
       {mode === DELETING && <Status deleting={DELETING}/>}
       {mode === CONFIRM && <Confirm onCancel={() => transition(SHOW)} onDelete={cancelInterview}/>}
       {mode === EDIT && <Form interviewer={props.interview.interviewer.id} name={props.interview.student} interviewers={getInterviewersByDay(props.state, props.day)} onCancel={onCancel} 

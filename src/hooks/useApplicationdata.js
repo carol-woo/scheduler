@@ -21,6 +21,7 @@ export default function useApplicationData() {
   const SET_INTERVIEW = "SET_INTERVIEW";
   
   function reducer(state, action) {
+    console.log('im running', action.type)
     switch (action.type) {
       case SET_DAY:
         return { ...state,...action.value}
@@ -41,34 +42,60 @@ export default function useApplicationData() {
 
   function bookInterview(id, interview) {
     return axios.put("http://localhost:8001/api/appointments/"+id, {interview}).then( data => {
-      console.log("This is data!",data)
+      console.log("This is data",id, interview)
+      const days = state.days.map(day => {
+        day.appointments.includes(id) 
+        if(day.appointments.includes(id)){
+          return {
+            ...day,
+            spots: day.spots -1
+          }
+        } else {
+          return day
+        }
+      })
         dispatcher({
           type: SET_INTERVIEW,
           value: {
             appointments: {
               ...state.appointments,
               [id]: {
-                ...state.appointments[id], interview:interview
+                ...state.appointments[id], 
+                interview:interview
               }
-            }
+            },
+            days
           }
         }
       )
         
-  const promise1 = axios.get(daysURL);
-  const promise2 = axios.get(appointmentsURL);
-  const promise3 = axios.get(interviewersURL);
+//   const promise1 = axios.get(daysURL);
+//   const promise2 = axios.get(appointmentsURL);
+//   const promise3 = axios.get(interviewersURL);
   
-  Promise.all([promise1, promise2, promise3])
-  .then((all) => {
-    dispatcher({type: SET_APPLICATION_DATA, value: { days: all[0].data, appointments: all[1].data, interviewers: all[2].data }});
-} );
+//   Promise.all([promise1, promise2, promise3])
+//   .then((all) => {
+//     console.log('refetch?')
+//     dispatcher({type: SET_APPLICATION_DATA, value: { days: all[0].data, appointments: all[1].data, interviewers: all[2].data }});
+// } );
     })
   }
 
 function deleteInterview(id){
   return axios.delete("http://localhost:8001/api/appointments/"+id).then( data => {
-    dispatcher({
+    const days = state.days.map(day => {
+      day.appointments.includes(id) 
+      if(day.appointments.includes(id)){
+        return {
+          ...day,
+          spots: day.spots +1
+        }
+      } else {
+        return day
+      }
+    }) 
+  
+  dispatcher({
       type: SET_INTERVIEW,
       value: {
         appointments: {
@@ -76,19 +103,20 @@ function deleteInterview(id){
           [id]: {
             ...state.appointments[id], interview:null
           }
-        }
+        },
+        days
       }
     }
   )
     
-  const promise1 = axios.get(daysURL);
-  const promise2 = axios.get(appointmentsURL);
-  const promise3 = axios.get(interviewersURL);
+//   const promise1 = axios.get(daysURL);
+//   const promise2 = axios.get(appointmentsURL);
+//   const promise3 = axios.get(interviewersURL);
   
-  Promise.all([promise1, promise2, promise3])
-  .then((all) => {
-    dispatcher({type: SET_APPLICATION_DATA, value: { days: all[0].data, appointments: all[1].data, interviewers: all[2].data }});
-} );
+//   Promise.all([promise1, promise2, promise3])
+//   .then((all) => {
+//     dispatcher({type: SET_APPLICATION_DATA, value: { days: all[0].data, appointments: all[1].data, interviewers: all[2].data }});
+// } );
 })
 }
 

@@ -18,17 +18,17 @@ export default function Application(props) {
     
   } = useApplicationData();
   const appointments = getAppointmentsForDay(state, state.day);
-const schedule =  appointments.map((appointment) => {
-  let interview = null
-  if (appointment.interview) {
-    interview = {
-      student: appointment.interview.student,
-      interviewer: state.interviewers[`${appointment.interview.interviewer}`]
+  const schedule =  appointments.map((appointment) => {
+    let interview = null
+    if (appointment.interview) {
+      interview = {
+        student: appointment.interview.student,
+        interviewer: state.interviewers[`${appointment.interview.interviewer}`]
+      }
     }
-  }
-
-  return (
-    <Appointment
+    
+    return (
+      <Appointment
       key={appointment.id}
       id={appointment.id}
       time={appointment.time}
@@ -38,9 +38,10 @@ const schedule =  appointments.map((appointment) => {
       onSave={setState}
       bookInterview={bookInterview}
       deleteInterview={deleteInterview}
-    />
-  );
-});
+      />
+      );
+    });
+    console.log('application:', appointments)
 
   return (
     <main className="layout">
