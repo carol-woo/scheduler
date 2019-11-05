@@ -68,16 +68,6 @@ export default function useApplicationData() {
           }
         }
       )
-        
-//   const promise1 = axios.get(daysURL);
-//   const promise2 = axios.get(appointmentsURL);
-//   const promise3 = axios.get(interviewersURL);
-  
-//   Promise.all([promise1, promise2, promise3])
-//   .then((all) => {
-//     console.log('refetch?')
-//     dispatcher({type: SET_APPLICATION_DATA, value: { days: all[0].data, appointments: all[1].data, interviewers: all[2].data }});
-// } );
     })
   }
 
@@ -108,15 +98,6 @@ function deleteInterview(id){
       }
     }
   )
-    
-//   const promise1 = axios.get(daysURL);
-//   const promise2 = axios.get(appointmentsURL);
-//   const promise3 = axios.get(interviewersURL);
-  
-//   Promise.all([promise1, promise2, promise3])
-//   .then((all) => {
-//     dispatcher({type: SET_APPLICATION_DATA, value: { days: all[0].data, appointments: all[1].data, interviewers: all[2].data }});
-// } );
 })
 }
 

@@ -109,5 +109,34 @@ export default {
         data: ""
       });
     }
+  }),
+
+  delete: jest.fn(url => {
+    console.log("LOCALHOST", url)
+    const appointmentsURL = "http://localhost:8001/api/appointments"
+    if (url.startsWith(appointmentsURL)) {
+      return Promise.resolve({
+        status: 204,
+        statusText: "No Content",
+        data: ""
+      });
+    }
+
+    if (url === "http://localhost:8001/api/days") {
+      return Promise.resolve({
+        status: 204,
+        statusText: "No Content",
+        data: ""
+      });
+    }
+    
+
+    if (url === "http://localhost:8001/api/interviewers") {
+      return Promise.resolve({
+        status: 204,
+        statusText: "No Content",
+        data: ""
+      });
+    }
   })
 };
