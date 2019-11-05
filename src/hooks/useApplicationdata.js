@@ -41,6 +41,7 @@ export default function useApplicationData() {
 
   function bookInterview(id, interview) {
     return axios.put("http://localhost:8001/api/appointments/"+id, {interview}).then( data => {
+      console.log("This is data!",data)
         dispatcher({
           type: SET_INTERVIEW,
           value: {

@@ -61,7 +61,7 @@ export default function Appointment(props) {
 
   console.log(props.interview)
   return (
-    <article className="appointment">
+    <article className="appointment" data-testid="appointment">
       <Header time={props.time} />
       <div id={props.id}>
       </div>
@@ -81,6 +81,7 @@ export default function Appointment(props) {
 
         
     </div>
+    
     </article>
   )
 }

@@ -1,3 +1,5 @@
+import { strict } from "assert";
+
 const fixtures = {
   days: [
     {
@@ -54,7 +56,6 @@ const fixtures = {
 };
 
 export default {
-  defaults: { baseURL: "" },
   get: jest.fn(url => {
     if (url === "http://localhost:8001/api/days") {
       return Promise.resolve({
@@ -77,6 +78,35 @@ export default {
         status: 200,
         statusText: "OK",
         data: fixtures.interviewers
+      });
+    }
+  }),
+  
+  put: jest.fn(url => {
+    console.log("LOCALHOST", url)
+    const appointmentsURL = "http://localhost:8001/api/appointments"
+    if (url.startsWith(appointmentsURL)) {
+      return Promise.resolve({
+        status: 204,
+        statusText: "No Content",
+        data: ""
+      });
+    }
+
+    if (url === "http://localhost:8001/api/days") {
+      return Promise.resolve({
+        status: 204,
+        statusText: "No Content",
+        data: ""
+      });
+    }
+    
+
+    if (url === "http://localhost:8001/api/interviewers") {
+      return Promise.resolve({
+        status: 204,
+        statusText: "No Content",
+        data: ""
       });
     }
   })
