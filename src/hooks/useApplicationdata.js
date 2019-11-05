@@ -1,6 +1,7 @@
 import React, { useReducer, useEffect } from "react";
 import axios from "axios"
 import {getAppointmentsForDay, } from "helpers/selectors"
+import reducer from "../reducer/application"
 
 let daysURL = "http://localhost:8001/api/days"
   let appointmentsURL = "http://localhost:8001/api/appointments"
@@ -20,29 +21,26 @@ export default function useApplicationData() {
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
   const SET_INTERVIEW = "SET_INTERVIEW";
   
-  function reducer(state, action) {
-    console.log('im running', action.type)
-    switch (action.type) {
-      case SET_DAY:
-        return { ...state,...action.value}
-      case SET_APPLICATION_DATA:
-        return {...state,...action.value}
-      case SET_INTERVIEW: {
-        return {...state,...action.value}
-      }
-      default:
-        throw new Error(
-          `Tried to reduce with unsupported action type: ${action.type}`
-        );
-    }
-
-  }
+  // function reducer(state, action) {
+  //   switch (action.type) {
+  //     case SET_DAY:
+  //       return { ...state,...action.value}
+  //     case SET_APPLICATION_DATA:
+  //       return {...state,...action.value}
+  //     case SET_INTERVIEW: {
+  //       return {...state,...action.value}
+  //     }
+  //     default:
+  //       throw new Error(
+  //         `Tried to reduce with unsupported action type: ${action.type}`
+  //       );
+  //   }
+  // }
 
   const [state, dispatcher] = useReducer(reducer, initialState)
 
   function bookInterview(id, interview) {
     return axios.put("http://localhost:8001/api/appointments/"+id, {interview}).then( data => {
-      console.log("This is data",id, interview)
       const days = state.days.map(day => {
         day.appointments.includes(id) 
         if(day.appointments.includes(id)){
