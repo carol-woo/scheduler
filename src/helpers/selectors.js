@@ -1,7 +1,6 @@
 import React from "react"
 import InterviewerList from "components/InterviewerList";
 import { statement } from "@babel/template";
-// import Test from "helpers/selectors.test"
 
 export function getAppointmentsForDay(state, day) {
   if (!state.days.length){
@@ -19,10 +18,6 @@ export function getAppointmentsForDay(state, day) {
   const appointments= mapDay.map(id => state.appointments[id])
   return appointments
 }
-//DID THIS ON THE APP
-// export function getInterview(state, appointment){
-//  console.log(appointment.interview)
-// }
 
 export function getInterviewersByDay(state, day) {
   if (!state.days.length){
