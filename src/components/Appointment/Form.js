@@ -2,22 +2,24 @@ import React, { useState } from "react"
 import InterviewerList from "components/InterviewerList"
 import Button from "components/Button"
 
+
+//Form to create an interview
 export default function Form (props) {
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [name, setName] = useState(props.name || "");
   const [error, setError] = useState("");
 
-
   function reset() {
     setName("");
     setInterviewer(null)
-
   }
 
   const cancel = () => {
     reset(props.onCancel())
   }
 
+  //Checks to see if the name is empty or that an interviewer hasn't been selected, triggered
+  // when you click save
   function validate() {
     if(name ==="" || interviewer === null) {
       setError("Please enter a student name and select an interviewer!")

@@ -41,7 +41,6 @@ export default function Application(props) {
       />
       );
     });
-    console.log('application:', appointments)
 
   return (
     <main className="layout">

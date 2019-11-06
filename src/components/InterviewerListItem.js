@@ -1,10 +1,9 @@
 import React from "react";
 import classnames from 'classnames';
-
 import "components/InterviewerListItem.scss"
 
+//Shows the interviewers icons
 export default function InterveiwerListItem (props) {
-  console.log(props.selected)
   let interviewerListClasses = classnames('interviwers__item',{
     'interviewers__item--selected' : props.selected,
     });

@@ -1,5 +1,6 @@
 import React from "react"
 
+//Component to show a plus button when there is no interview
 export default function Empty (props) {
   return (
     <main className="appointment__add">

@@ -22,9 +22,9 @@ export default function Appointment(props) {
   const ERRORSAVE = "ERRORSAVE"
   const ERRORDELETE = "ERRORDELETE"
 
+  //Custom hook, used for rendering different components, located in src/hooks/userVisualMode.js
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
-    
   );
 
   function onAdd() {
@@ -34,6 +34,7 @@ export default function Appointment(props) {
   function onCancel(){
     back()
   }
+
 
   function save(name, interviewer, cb) {
     transition(SAVING);
@@ -67,16 +68,43 @@ export default function Appointment(props) {
       </div>
     <div>
       {mode === EMPTY && <Empty onAdd={onAdd} /> }
-      {mode === CREATE && <Form interviewers={getInterviewersByDay(props.state, props.day)} onCancel={onCancel} 
-        onSave={onSave} />}
-      {mode === SHOW && <Show student={props.interview && props.interview.student} onCancel={() => transition(CONFIRM)}
-      interviewer={props.interview && props.interview.interviewer && props.interview.interviewer.name} onEdit={() => transition(EDIT)}/>}
+
+      {mode === CREATE && 
+      <Form 
+        interviewers={getInterviewersByDay(props.state, props.day)} 
+        onCancel={onCancel} 
+        onSave={onSave} 
+      />}
+
+      {mode === SHOW && 
+      <Show 
+        student={props.interview && props.interview.student} 
+        onCancel={() => transition(CONFIRM)}
+        interviewer={props.interview && props.interview.interviewer && props.interview.interviewer.name} 
+        onEdit={() => transition(EDIT)}
+      />}
+
       {mode === SAVING && <Status deleting={"Saving"}/>}
+
       {mode === DELETING && <Status deleting={"Deleting"}/>}
-      {mode === CONFIRM && <Confirm onCancel={() => transition(SHOW)} onDelete={cancelInterview}/>}
-      {mode === EDIT && <Form interviewer={props.interview.interviewer.id} name={props.interview.student} interviewers={getInterviewersByDay(props.state, props.day)} onCancel={onCancel} 
-        onSave={onSave} />}
+
+      {mode === CONFIRM && 
+      <Confirm 
+        onCancel={() => transition(SHOW)} 
+        onDelete={cancelInterview}
+      />}
+
+      {mode === EDIT && 
+      <Form 
+        interviewer={props.interview.interviewer.id} 
+        name={props.interview.student} 
+        interviewers={getInterviewersByDay(props.state, props.day)} 
+        onCancel={onCancel} 
+        onSave={onSave}
+      />}
+
       {mode === ERRORSAVE && <Error onClose={() => transition(EMPTY)} />}
+
       {mode === ERRORDELETE && <Error onClose={() => transition(SHOW)} />}
 
         
@@ -85,5 +113,3 @@ export default function Appointment(props) {
     </article>
   )
 }
-//THIS IS FOR THE PROPS FOR INTERVIEWER CURRENTLY BEING REPLACED BY AN EMPTY ARRAY
-// interviewer={props.interview.interviewer.name}/>}
