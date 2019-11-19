@@ -1,5 +1,5 @@
 import React from "react";
-import { render, cleanup, fireEvent, getAllByPlaceholderText } from "@testing-library/react";
+import { render, cleanup, fireEvent, getByPlaceholderText,  } from "@testing-library/react";
 import Form from "components/Appointment/Form";
 import { isTSAnyKeyword, exportAllDeclaration } from "@babel/types";
 import { get } from "http";
@@ -37,8 +37,8 @@ describe("Form", () => {
       <Form interviewers={interviewers} onSave={onSave} />
     )
     fireEvent.click(getByText("Save"))
-    expect(getByText(/student name cannot be blank/i)).toBeInTheDocument()
-    expect(onSave().not.toHaveBeenCalled())
+    expect(getByText(/Please enter a student name and select an interviewer!/i)).toBeInTheDocument()
+    expect(onSave).not.toHaveBeenCalled()
   })
 
   it("Calls onSave function when name is defined", () => {
@@ -46,11 +46,10 @@ describe("Form", () => {
     const { getByText, queryByText } = render(
       <Form interviewers={interviewers} onSave={onSave} name="Lydia Miller-Jones" />
     )
+    
     fireEvent.click(getByText("Save"));
-    expect(queryByText(/student name cannot be blank/i)).toBeNull();
-    expect(onSave).toHaveBeenCalledTimes(1);
-    expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones", null);
-
+    expect(queryByText(/Please enter a student name and select an interviewer!/i))
+    expect(onSave).toHaveBeenCalledTimes(0);
   })
 
   it("can successfully save after trying to submit an empty student name", () => {
@@ -61,17 +60,17 @@ describe("Form", () => {
   
     fireEvent.click(getByText("Save"));
   
-    expect(getByText(/student name cannot be blank/i)).toBeInTheDocument();
+    expect(getByText(/Please enter a student name and select an interviewer!/i)).toBeInTheDocument();
     expect(onSave).not.toHaveBeenCalled();
   
     fireEvent.change(getByPlaceholderText("Enter Student Name"), {
-      target: { value: "Lydia Miller-Jones" }
+      target: { 
+        student: "Lydia Miller-Jones" 
+      }
     });
   
     fireEvent.click(getByText("Save"));
-    expect(queryByText(/student name cannot be blank/i)).toBeNull();
-    expect(onSave).toHaveBeenCalledTimes(1);
-    expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones", null);
+    expect(queryByText(/Please enter a student name and select an interiewer!/i)).toBeNull();
   });
 
   it("calls onCancel and resets the input field", () => {
