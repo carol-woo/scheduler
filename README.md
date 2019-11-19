@@ -1,7 +1,9 @@
 # Interview Scheduler
 
 ## Screenshots
-
+!["Screenshot of interview"](https://github.com/Araxiah/schedular/blob/master/docs/create-interview.png)
+!["Screenshot of inputs for interview"](https://github.com/Araxiah/schedular/blob/master/docs/create-interview2.png)
+!["Screenshot of deletion"](https://github.com/Araxiah/schedular/blob/master/docs/delete-interview.png)
 
 ## Setup
 
